@@ -21,7 +21,7 @@ router.post("/", contactAddValidate, contactsController.add);
 
 router.put("/:id", isValidId, contactAddValidate, contactsController.updateById);
 
-router.patch("/:id/favorite", isValidId, contactUpdateFavoriteSchema, contactsController.updateById);
+router.patch("/:id/favorite", isValidId, contactUpdateFavoriteSchema, contactsController.updateStatusContact);
 
 router.delete("/:id", isValidId, contactsController.deleteById);
 
