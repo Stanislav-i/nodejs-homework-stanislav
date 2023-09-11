@@ -20,17 +20,7 @@ const contactSchema = new Schema({
         type: Boolean,
         default: false,
     },
-    // section: {
-    //     type: String,
-    //     enum: ["Family", "Work", "Other"],
-    //     required: true,
-    // },
-    // dateAdded: {
-    //     type: String,
-    //     match: /^\d{4}$/,
-    //     required: true,
 
-    // }
 }, {versionKey: false, timestamps: true});
 
 contactSchema.post("save", handleSaveError);
@@ -40,9 +30,15 @@ contactSchema.pre("findOneAndUpdate", runValidateAtUpdate);
 contactSchema.post("findOneAndUpdate", handleSaveError);
 
 export const contactAddSchema = Joi.object({
-    name: Joi.string().required(),
-    email: Joi.string().required(),
-    phone: Joi.string().required(),
+    name: Joi.string().required().messages({
+        "any.required": `missing field Name`
+    }),
+    email: Joi.string().required().messages({
+        "any.required": `missing field Email`
+    }),
+    phone: Joi.string().required().messages({
+        "any.required": `missing field Phone`
+    }),
   });
 
 export const contactUpdateFavoriteSchema = Joi.object({
