@@ -8,6 +8,8 @@ import {validateBody} from "../../decorators/index.js";
 
 import {authenticate, isValidId} from "../../middleware/validation/index.js";
 
+import upload from "../../middleware/upload.js";
+
 const contactAddValidate = validateBody(contactSchemas.contactAddSchema);
 const contactUpdateFavoriteSchema = validateBody(contactSchemas.contactUpdateFavoriteSchema)
 
@@ -19,7 +21,7 @@ router.get("/", contactsController.getAll);
 
 router.get("/:id", isValidId, contactsController.getById);
 
-router.post("/", contactAddValidate, contactsController.add);
+router.post("/", upload.single("avatar"), contactAddValidate, contactsController.add);
 
 router.put("/:id", isValidId, contactAddValidate, contactsController.updateById);
 
