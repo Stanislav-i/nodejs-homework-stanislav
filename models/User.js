@@ -33,12 +33,20 @@ const userSchema = new Schema({
     token: {
         type: String,
         default: null,
-    }
+    },
+    verify: {
+        type: Boolean,
+        default: false,
+      },
+    verificationToken: {
+        type: String,
+        required: [true, 'Verify token is required'],
+      },
 }, {versionKey: false, timestamps: true})
 
 userSchema.post("save", handleSaveError);
 
-userSchema.pre("findOneAndUpdate", runValidateAtUpdate);
+userSchema.pre("updateOne", runValidateAtUpdate);
 
 userSchema.post("findOneAndUpdate", handleSaveError);
 
@@ -60,6 +68,12 @@ export const userSigninSchema = Joi.object({
     }),
     password: Joi.string().min(5).required().messages({
         "any.required": `missing field Passord`
+    }),
+});
+
+export const userEmailSchema = Joi.object({
+    email: Joi.string().pattern(emailRegexp).required().messages({
+        "any.required": `missing field Email`
     }),
 });
 
